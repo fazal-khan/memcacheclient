@@ -1,0 +1,21 @@
+buildscript {
+	ext {
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+jar {
+    baseName = 'memcacheclient'
+    version = '1.0.0-SNAPSHOT'
+}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+}
