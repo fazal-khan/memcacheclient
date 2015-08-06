@@ -1,7 +1,7 @@
 # Memcacheclient
 
 ###Implemented memcache binary protocol for learning purpose
-##Please note, I have not tested this code.
+###Please note, I have not tested this code.
 
 ### Test code
 
@@ -37,7 +37,7 @@ public class TestMem {
 
 		for (int i = 0; i < repeat; i++) {
 			log("----test1----------------------------\n");
-			// creats with value zero, delete it later.
+			// created with value default value 10, delete it later.
 			c.increment("myctr", 0, 10);
 
 			log("value is    : ->" + c.getString("myctr") + "<-");
@@ -61,7 +61,7 @@ public class TestMem {
 		for (int i = 0; i < repeat; i++) {
 
 			log("----test2---------------------------\n");
-			c.add("myctr", 10); // created with value zero, delete later.
+			c.add("myctr", 10); // created with value 10, delete later.
 			log("value is    : ->" + c.getString("myctr") + "<-");
 			log("value is    : ->" + c.getLong("myctr") + "<-");
 			log("incr value is    : " + c.increment("myctr", 15));
