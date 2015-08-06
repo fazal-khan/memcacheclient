@@ -1,6 +1,6 @@
-# Memcacheclient
+# Java Memcacheclient
 
-###Implemented memcache binary protocol for learning purpose
+###Implemented memcache binary protocol in java for learning purpose
 ###Please note, I have not tested this code.
 
 ### Test code

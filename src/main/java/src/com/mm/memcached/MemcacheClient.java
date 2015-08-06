@@ -2,7 +2,6 @@ package com.mm.memcached;
 
 import java.io.IOException;
 
-// NOT thread safe.
 public class MemcacheClient implements AutoCloseable {
 
 	public final static int			MEM_PORT	= 11211;
@@ -33,62 +32,53 @@ public class MemcacheClient implements AutoCloseable {
 	// 4.3 helpers for string & long
 	public void add(String key, String value) throws IOException {
 		Response res = client.addReplaceSet(Request.OP_ADD, key, value, 0, 0);
-		if (res.hasError()) {
-			throw new RuntimeException(res.getError());
-		}
+		checkError(res);
 	}
 
 	public void add(String key, long value) throws IOException {
 		// Response res = addReplaceSet(Request.OP_ADD, key, new
 		// Long(value).toString(), 0, 0);
 		Response res = client.incr(key, 0, value, 0);
-		if (res.hasError()) {
-			throw new RuntimeException(res.getError());
-		}
+		checkError(res);
 	}
 
 	public void set(String key, String value) throws IOException {
 		Response res = client.addReplaceSet(Request.OP_SET, key, value, 0, 0);
-		if (res.hasError()) {
-			throw new RuntimeException(res.getError());
-		}
+		checkError(res);
 	}
 
 	public void replace(String key, String value) throws IOException {
 		Response res = client.addReplaceSet(Request.OP_SET, key, value, 0, 0);
-		if (res.hasError()) {
-			throw new RuntimeException(res.getError());
-		}
+		checkError(res);
 	}
 
 	public void append(String key, String value) throws IOException {
 		Response res = client.append(key, value, false);
-		if (res.hasError()) {
-			throw new RuntimeException(res.getError());
-		}
+		checkError(res);
 	}
 
 	public void prepend(String key, String value) throws IOException {
 		Response res = client.prepend(key, value, false);
-		if (res.hasError()) {
-			throw new RuntimeException(res.getError());
-		}
+		checkError(res);
 	}
 
 	// 4.5 helpers
 	public Long increment(String key, long delta) throws IOException {
 		Response res = client.incr(key, delta, 0, 0);
+		checkError(res);
 		return res.getValueAsLong();
 	}
 
 	// 4.5 helpers
 	public Long increment(String key, long delta, long initValue) throws IOException {
 		Response res = client.incr(key, delta, initValue, 0);
+		checkError(res);
 		return res.getValueAsLong();
 	}
 
 	public Long decrement(String key, long delta) throws IOException {
 		Response res = client.decr(key, delta, 0, 0);
+		checkError(res);
 		return res.getValueAsLong();
 	}
 
@@ -129,6 +119,15 @@ public class MemcacheClient implements AutoCloseable {
 			// ignored
 		}
 		return false;
+	}
+
+	public void noop() throws IOException {
+		this.client.noop();
+	}
+
+	// raw req and resp
+	public Response send(Request r) throws IOException {
+		return this.client.sendRequest(r);
 	}
 
 	@Override
